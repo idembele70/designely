@@ -8,7 +8,15 @@ interface IPalette {
 declare module "styled-components" {
   export interface DefaultTheme {
     borderColor: string;
-    borderRadius: string;
+    borderRadius: {
+      small: string,
+      medium: string,
+      large: string
+    };
+    boxShadow: {
+      darker: string;
+      light: string;
+    };
     palette: {
       common: {
         black: string;
@@ -16,6 +24,7 @@ declare module "styled-components" {
       };
       primary: IPalette;
       secondary: IPalette;
+      yellow: IPalette;
     };
   }
 }

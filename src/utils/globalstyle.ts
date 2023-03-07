@@ -3,6 +3,7 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
 body {
   margin:0;
+  background-color:#F2F2F2;
 }
 * {
   box-sizing: border-box;
@@ -20,14 +21,16 @@ h3 {
   line-height:1.2;
 }
 h4 {
-  font-family:"Jost", "sans-serif";
+  font-family:"Inter", "sans-serif";
+  font-style:normal;
   font-weight:600;
   line-height:1.2;
 }
 h5 {
-  font-family: "Jost", "sans-serif";
-  font-weight:400;
-  line-height:1.5;
+  font-family: "Inter", "sans-serif";
+  font-style:normal;
+  font-weight:600;
+  line-height:1.2;
 }
 a {
   font-family: "Inter", "sans-serif";
@@ -38,10 +41,11 @@ a {
   font-size: 1.5625rem;
 }
 p {
-  font-size:1rem;
-  font-family: "Open Sans", "sans-serif";
-  font-weight:400;
-  line-height:1.5;
+  font-size: 1.875rem;
+  font-family: "Inter", "sans-serif";
+  font-style:normal;
+  font-weight:600;
+  line-height:1.2;
 }
 `;
 
