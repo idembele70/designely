@@ -3,6 +3,7 @@ import { DefaultTheme } from "styled-components";
 export const defaultTheme: DefaultTheme = {
   borderColor: "rgba(0,0,0,0.15)",
   borderRadius: {
+    XSmall: "10px",
     small: "15px",
     medium: "20px",
     large: "30px"
