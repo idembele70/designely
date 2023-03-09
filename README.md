@@ -54,5 +54,5 @@ The objective of this project is to enhance skills in FIGMA Design to React usin
 - [ ] Animation
   - [ ] Scroll Trigger
   - [ ] Loader
-- [] Deploy
-- [] README
+- [ ] Deploy
+- [ ] README
