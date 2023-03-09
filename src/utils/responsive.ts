@@ -29,6 +29,13 @@ export function MDDown(props: CSSObject) {
   }
   `
 }
+export function SMDown(props: CSSObject) {
+  return css`
+  @media only screen and ( max-width: 768px){
+    ${props}
+  }
+  `
+}
 export function XSDown(props: CSSObject) {
   return css`
   @media only screen and ( max-width: 576px){

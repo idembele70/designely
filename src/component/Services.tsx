@@ -1,16 +1,29 @@
 import React from "react";
 import styled from "styled-components";
 import { baseUrl } from "./About";
+import { LGDown, MDDown, SMDown, XLDown, XXLDown } from "../utils/responsive";
 const Container = styled.div`
   display: flex;
   justify-content: center;
   padding-left: 90px;
   padding-top: 50px;
   padding-bottom: 50px;
+  ${XXLDown({
+    flexDirection: "column",
+    alignItems: "center",
+    padding: 48,
+  })}
+  ${MDDown({
+    padding: 24,
+  })}
 `;
 const Left = styled.div`
   width: 532px;
-  //padding-top: 50px;
+  padding-bottom: 48px;
+  ${XXLDown({
+    width: "auto",
+    textAlign: "center",
+  })}
 `;
 const LeftTitle = styled.h1`
   font-size: 3.125rem;
@@ -26,6 +39,9 @@ const LeftSubTitle = styled.h4`
 const Paragraph = styled.p`
   color: ${({ theme }) => theme.palette.primary.light};
   max-width: 391px;
+  ${XXLDown({
+    maxWidth: "initial",
+  })}
 `;
 const Right = styled.div`
   flex-grow: 1;
@@ -33,11 +49,23 @@ const Right = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-top: -50px;
+  ${XXLDown({
+    marginTop: 0,
+  })}
 `;
 const RightItemsContainer = styled.div`
   width: calc(100% / 3);
   padding: 0 34px;
   margin-top: 50px;
+  ${XLDown({
+    padding: "0 24px",
+  })}
+  ${MDDown({
+    width: "50%",
+  })}
+  ${SMDown({
+    width: "100%",
+  })}
 `;
 const RightItems = styled.div`
   padding-left: 13px;
@@ -48,6 +76,10 @@ const RightItems = styled.div`
   box-shadow: 0px 5px 5px ${({ theme }) => theme.boxShadow.light};
   border-radius: ${({ theme }) => theme.borderRadius.large};
   background-color: ${({ theme }) => theme.palette.common.white};
+  ${LGDown({
+    paddingTop: 24,
+    paddingBottom: 24,
+  })}
 `;
 const ImageWrapper = styled.div`
   background-color: ${({ theme }) => theme.palette.yellow.main};
@@ -58,6 +90,9 @@ const ImageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  ${XXLDown({
+    marginRight: 16,
+  })}
 `;
 const Image = styled.img`
   height: 40px;

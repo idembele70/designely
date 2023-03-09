@@ -25,7 +25,8 @@ const Left = styled.div`
   padding-bottom: 158px;
   ${XXLDown({
     width: "40%",
-    padding: "48px 0",
+    paddingTop: 48,
+    paddingBottom: 48,
   })}
   ${MDDown({
     width: "initial",

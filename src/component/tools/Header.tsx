@@ -4,12 +4,12 @@ import styled from "styled-components";
 import { LGDown, XLDown, XSDown, XXLDown } from "../../utils/responsive";
 import Bars from "../icon/Bars";
 const Container = styled.div`
-  padding: 80px 106px 0;
+  padding: 80px 106px 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  background-color: ${({ theme }) => theme.palette.common.white};
+  //background-color: ${({ theme }) => theme.palette.common.white};
   ${XXLDown({
     padding: "12px 48px",
   })}
@@ -48,7 +48,7 @@ const NavbarAndSignWrapper = styled.div<NavbarAndSignWrapperProps>`
   ${({ expanded }) =>
     XSDown({
       maxHeight: expanded ? 646 : 0,
-    })}
+    })};
 `;
 const Navbar = styled.nav`
   display: flex;
@@ -87,6 +87,7 @@ export const Button = styled(Link)`
   border: 1px solid ${({ theme }) => theme.palette.secondary.main};
   padding: 20px 30px;
   white-space: nowrap;
+  text-align: center;
   border-radius: ${({ theme }) => theme.borderRadius.small};
   color: ${({ theme }) => theme.palette.primary.main};
   filter: drop-shadow(0px 4px 4px ${({ theme }) => theme.boxShadow});
