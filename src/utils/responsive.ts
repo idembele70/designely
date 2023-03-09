@@ -22,6 +22,13 @@ export function LGDown(props: CSSObject) {
   }
   `
 }
+export function MDDown(props: CSSObject) {
+  return css`
+  @media only screen and ( max-width: 992px){
+    ${props}
+  }
+  `
+}
 export function XSDown(props: CSSObject) {
   return css`
   @media only screen and ( max-width: 576px){

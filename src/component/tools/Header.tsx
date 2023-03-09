@@ -98,6 +98,9 @@ export const Button = styled(Link)`
     box-shadow: 0px 4px 4px ${({ theme }) => theme.boxShadow};
     filter: none;
   }
+  ${XXLDown({
+    fontSize: "1.25rem",
+  })}
 `;
 const SignIn = styled(Button)`
   margin-right: 30px;
