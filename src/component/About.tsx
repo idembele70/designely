@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import styled from "styled-components";
 import { Button } from "./tools/Header";
 import { LGDown, MDDown, XSDown, XXLDown } from "../utils/responsive";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 const Container = styled.div`
   padding: 0 106px;
   display: flex;
@@ -20,6 +22,8 @@ const Container = styled.div`
   })}
 `;
 const Left = styled.div`
+  transform: translateX(-100%);
+  opacity: 0;
   width: 52%;
   padding-top: 90px;
   padding-bottom: 158px;
@@ -93,6 +97,8 @@ const SignUp = styled(Button)`
   })}
 `;
 const Image = styled.img`
+  transform: translateX(100%);
+  opacity: 0;
   position: absolute;
   right: -153px;
   top: 0;
@@ -113,9 +119,45 @@ const Image = styled.img`
 `;
 export const baseUrl = `${process.env.PUBLIC_URL}/assets/`;
 const About = () => {
+  // Sets up a ScrollTrigger animation for container child's
+  const containerEl = useRef<HTMLDivElement>(null);
+  const leftEl = useRef<HTMLDivElement>(null);
+  const imageEl = useRef<HTMLImageElement>(null);
+  useLayoutEffect(() => {
+    const tl = gsap.timeline({
+      defaults: {
+        duration: 1,
+        delay: 0.1,
+      },
+      scrollTrigger: {
+        trigger: containerEl.current,
+        start: "top center",
+      },
+    });
+    tl.to(leftEl.current, {
+      x: 0,
+      opacity: 1,
+    }).to(imageEl.current, {
+      x: 0,
+      opacity: 1,
+    });
+    return () => {
+      // Get all active ScrollTriggers and kill them
+      ScrollTrigger.getAll().forEach((trigger) => {
+        trigger.kill();
+      });
+
+      // Kill the Timeline
+      tl.kill();
+    };
+  }, []);
+  // function that refresh scrollTrigger when image get his full width
+  const handleLoad = () => {
+    ScrollTrigger.refresh();
+  };
   return (
-    <Container>
-      <Left>
+    <Container ref={containerEl}>
+      <Left ref={leftEl}>
         <LeftTitle>
           Exceedingly Good learn design with
           <LeftTitleSecondary>Designely</LeftTitleSecondary>
@@ -129,7 +171,11 @@ const About = () => {
           <Button to="/learnmore">Learn More</Button>
         </ButtonContainer>
       </Left>
-      <Image src={`${baseUrl}illustration1.png`} />
+      <Image
+        onLoad={handleLoad}
+        ref={imageEl}
+        src={`${baseUrl}illustration1.png`}
+      />
     </Container>
   );
 };

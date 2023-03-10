@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter,
   Route,
@@ -8,16 +8,9 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Header from "./component/tools/Header";
-
+import RoutesWrapper from "./component/RoutesWrapper";
 function App() {
-  return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  return <RoutesWrapper />;
 }
 
 export default App;

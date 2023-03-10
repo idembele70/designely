@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { LGDown, XLDown, XSDown, XXLDown } from "../../utils/responsive";
 import Bars from "../icon/Bars";
+import { gsap } from "gsap";
 const Container = styled.div`
   padding: 80px 106px 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  //background-color: ${({ theme }) => theme.palette.common.white};
+  opacity: 0;
   ${XXLDown({
     padding: "12px 48px",
   })}
@@ -131,8 +132,24 @@ const Header = () => {
   const handleExpand = () => {
     setExpanded(!expanded);
   };
+  // Sets up a ScrollTrigger animation for the container
+  const containerEl = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const tween = gsap.to(containerEl.current, {
+      opacity: 1,
+      duration: 1,
+      delay: 0.1,
+      scrollTrigger: {
+        trigger: containerEl.current,
+        start: "top center",
+      },
+    });
+    return () => {
+      tween.scrollTrigger?.kill();
+    };
+  }, []);
   return (
-    <Container>
+    <Container ref={containerEl}>
       <LogoContainer to="/">
         <Logo>Designely</Logo>
       </LogoContainer>

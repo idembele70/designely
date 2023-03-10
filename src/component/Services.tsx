@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import styled from "styled-components";
 import { baseUrl } from "./About";
 import { LGDown, MDDown, SMDown, XLDown, XXLDown } from "../utils/responsive";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -20,6 +22,8 @@ const Container = styled.div`
 const Left = styled.div`
   width: 532px;
   padding-bottom: 48px;
+  opacity: 0;
+  transform: translateY(100%);
   ${XXLDown({
     width: "auto",
     textAlign: "center",
@@ -44,6 +48,8 @@ const Paragraph = styled.p`
   })}
 `;
 const Right = styled.div`
+  opacity: 0;
+  transform: translateY(100%);
   flex-grow: 1;
   flex-basis: 0;
   display: flex;
@@ -132,16 +138,71 @@ const servicesItems: IServicesItem[] = [
   },
 ];
 const Services = () => {
+  // Sets up a ScrollTrigger animation for container > child's
+  const containerEl = useRef<HTMLDivElement>(null);
+  // Container direct child ref
+  const containerChildRefs = useRef<HTMLDivElement[]>([]);
+  const addToContainerChildRef = (el: HTMLDivElement) => {
+    if (el && !containerChildRefs.current.includes(el))
+      containerChildRefs.current.push(el);
+  };
+  // right direct child ref
+  const rightChildRefs = useRef<HTMLDivElement[]>([]);
+  const addToRightChildRef = (el: HTMLDivElement) => {
+    if (el && !rightChildRefs.current.includes(el))
+      rightChildRefs.current.push(el);
+  };
+  useLayoutEffect(() => {
+    const tl = gsap.timeline({
+      defaults: {
+        duration: 1,
+        delay: 0.1,
+      },
+      scrollTrigger: {
+        trigger: containerEl.current,
+        start: "top-=250 center",
+      },
+    });
+    tl.to(containerChildRefs.current, {
+      opacity: 1,
+      y: 0,
+      stagger: 0.2,
+    }).fromTo(
+      rightChildRefs.current,
+      {
+        opacity: 0,
+        y: "100%",
+        stagger: 0.1,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.1,
+      }
+    );
+    return () => {
+      // Get all active ScrollTriggers and kill them
+      ScrollTrigger.getAll().forEach((trigger) => {
+        trigger.kill();
+      });
+      // Kill the Timeline
+      tl.kill();
+    };
+  }, []);
   return (
-    <Container>
-      <Left>
+    <Container ref={containerEl}>
+      <Left ref={addToContainerChildRef}>
         <LeftTitle>Top category we have</LeftTitle>
         <LeftSubTitle>Trending course category</LeftSubTitle>
         <Paragraph>Various popular categories on our platform</Paragraph>
       </Left>
-      <Right>
+      <Right ref={addToContainerChildRef}>
         {servicesItems.map(({ url, title }) => (
-          <RightItemsContainer>
+          <RightItemsContainer
+            className="okr"
+            key={title}
+            ref={addToRightChildRef}
+          >
             <RightItems>
               <ImageWrapper>
                 <Image src={`${baseUrl}${url}.png`} />
