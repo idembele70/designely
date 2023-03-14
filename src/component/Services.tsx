@@ -18,6 +18,7 @@ const Container = styled.div`
   ${MDDown({
     padding: 24,
   })}
+  overflow:hidden;
 `;
 const Left = styled.div`
   width: 532px;
@@ -60,6 +61,8 @@ const Right = styled.div`
   })}
 `;
 const RightItemsContainer = styled.div`
+  opacity: 0;
+  transform: translateY(100%);
   width: calc(100% / 3);
   padding: 0 34px;
   margin-top: 50px;
@@ -153,40 +156,47 @@ const Services = () => {
       rightChildRefs.current.push(el);
   };
   useLayoutEffect(() => {
-    const tl = gsap.timeline({
-      defaults: {
-        duration: 1,
-        delay: 0.1,
-      },
-      scrollTrigger: {
-        trigger: containerEl.current,
-        start: "top-=250 center",
-      },
-    });
-    tl.to(containerChildRefs.current, {
+    const { innerWidth: winWidth } = window;
+    const tween = gsap.to(containerChildRefs.current, {
       opacity: 1,
       y: 0,
-      stagger: 0.2,
-    }).fromTo(
-      rightChildRefs.current,
-      {
-        opacity: 0,
-        y: "100%",
-        stagger: 0.1,
+      delay: 0.3,
+      scrollTrigger: {
+        trigger: containerChildRefs.current,
+        start: `top-=${winWidth > 1919 ? 220 : 290}% center`,
       },
-      {
+    });
+
+    /*  const tween = gsap.to(containerChildRefs.current, {
+      opacity: 1,
+      y: 0,
+      delay: 0.3,
+      scrollTrigger: {
+        trigger: containerEl.current,
+        start: "top-=50% center",
+        // start: `top-=${
+        //   winWidth > 1919 ? 100 : winWidth > 992 ? 30 : 25
+        // }% center`,
+        markers: true,
+      },
+    }); */
+    rightChildRefs.current.forEach((element, idx) => {
+      gsap.to(element, {
         y: 0,
         opacity: 1,
-        stagger: 0.1,
-      }
-    );
+        delay: idx * 0.2,
+        scrollTrigger: {
+          trigger: element,
+          start: `top-=${winWidth > 992 ? 690 : 890}% center`,
+        },
+      });
+    });
+
     return () => {
       // Get all active ScrollTriggers and kill them
       ScrollTrigger.getAll().forEach((trigger) => {
         trigger.kill();
       });
-      // Kill the Timeline
-      tl.kill();
     };
   }, []);
   return (
@@ -198,11 +208,7 @@ const Services = () => {
       </Left>
       <Right ref={addToContainerChildRef}>
         {servicesItems.map(({ url, title }) => (
-          <RightItemsContainer
-            className="okr"
-            key={title}
-            ref={addToRightChildRef}
-          >
+          <RightItemsContainer key={title} ref={addToRightChildRef}>
             <RightItems>
               <ImageWrapper>
                 <Image src={`${baseUrl}${url}.png`} />

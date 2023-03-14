@@ -12,6 +12,7 @@ const Container = styled.div`
   ${XXLDown({
     padding: 48,
     justifyContent: "center",
+    minHeight: "681px",
   })}
   ${LGDown({
     padding: "48px 24px",
@@ -19,6 +20,7 @@ const Container = styled.div`
   ${MDDown({
     flexDirection: "column",
     alignItems: "center",
+    minHeight: "calc(100vw - 48px * 927 / 1195)",
   })}
 `;
 const Left = styled.div`
@@ -96,33 +98,43 @@ const SignUp = styled(Button)`
     marginBottom: 10,
   })}
 `;
-const Image = styled.img`
+const ImageWrapper = styled.div`
   transform: translateX(100%);
   opacity: 0;
-  position: absolute;
-  right: -153px;
-  top: 0;
-  max-height: 847px;
-  object-fit: cover;
-  overflow: visible;
+  height: 847px;
+  width: 48%;
+  overflow: hidden;
   ${XXLDown({
-    position: "initial",
-    maxHeight: "585px",
+    width: "60%",
+    height: "auto",
+    minHeight: "calc((60vw - 96px)* 927 / 1195)",
+  })}
+  ${MDDown({
+    width: "100%",
+    minHeight: "calc((100vw - 48px)* 927 / 1195)",
+  })}
+`;
+const Image = styled.img`
+  height: 100%;
+  object-fit: cover;
+  ${XXLDown({
+    height: "auto",
+    maxHeight: "100%",
     objectPosition: "8%",
-    maxWidth: "60%",
+    maxWidth: "100%",
   })}
   ${MDDown({
     maxHeight: "initial",
     maxWidth: "100%",
-    objectPosition: "8%",
-  })}
+    objectPosition: "9vw center",
+  })};
 `;
 export const baseUrl = `${process.env.PUBLIC_URL}/assets/`;
 const About = () => {
   // Sets up a ScrollTrigger animation for container child's
   const containerEl = useRef<HTMLDivElement>(null);
   const leftEl = useRef<HTMLDivElement>(null);
-  const imageEl = useRef<HTMLImageElement>(null);
+  const imageWrapperEl = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     const tl = gsap.timeline({
       defaults: {
@@ -137,7 +149,7 @@ const About = () => {
     tl.to(leftEl.current, {
       x: 0,
       opacity: 1,
-    }).to(imageEl.current, {
+    }).to(imageWrapperEl.current, {
       x: 0,
       opacity: 1,
     });
@@ -171,11 +183,9 @@ const About = () => {
           <Button to="/learnmore">Learn More</Button>
         </ButtonContainer>
       </Left>
-      <Image
-        onLoad={handleLoad}
-        ref={imageEl}
-        src={`${baseUrl}illustration1.png`}
-      />
+      <ImageWrapper ref={imageWrapperEl}>
+        <Image onLoad={handleLoad} src={`${baseUrl}illustration1.png`} />
+      </ImageWrapper>
     </Container>
   );
 };
